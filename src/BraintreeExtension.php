@@ -1,5 +1,5 @@
 <?php
-namespace AlexT;
+namespace AlexT\BTPayment;
 
 use Braintree\Gateway;
 use SilverStripe\Forms\DropdownField;

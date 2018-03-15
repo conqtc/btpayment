@@ -1,5 +1,5 @@
 <?php
-namespace AlexT;
+namespace AlexT\BTPayment;
 
 use PageController;
 use SilverStripe\Forms\FieldList;
