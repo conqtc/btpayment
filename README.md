@@ -20,7 +20,7 @@ composer require alext/silverstripe-btpayment
 ## Braintree settings
 
 After installing and rebuilding (`\dev\build?flush`) go to site admin - Settings and input Braintree settings, see screenshot below:
-![Setting](/_screenshots/settings.png?raw=true "Braintree settings")
+![Setting|20%](/_screenshots/settings.png?raw=true "Braintree settings")
 
 ## SilverStripe member and Braintree customer
 
