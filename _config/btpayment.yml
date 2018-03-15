@@ -1,6 +1,6 @@
 SilverStripe\SiteConfig\SiteConfig:
   extensions:
-    - AlexT\BraintreeExtension
+    - AlexT\BTPayment\BraintreeExtension
 SilverStripe\Security\Member:
   extensions:
-    - AlexT\BraintreeMemberExtension
+    - AlexT\BTPayment\BraintreeMemberExtension
