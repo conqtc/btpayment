@@ -4,9 +4,9 @@ A SilverStripe module to integrate Braintree payment forms in Dropin UI.
 
 Currently there're two forms:
 * Make a payment form:
-![Make Payment](_screenshots/make_payment.jpg?raw=true "Make payment")
+![Make Payment](/_screenshots/make_payment.png?raw=true "Make payment")
 * Add/remove payment methods in the vault:
-![Manage Payment Methods](_screenshots/manage_methods.jpg?raw=true "Manage payment methods")
+![Manage Payment Methods](/_screenshots/manage_methods.png?raw=true "Manage payment methods")
 
 Support SilverStripe 4.
 
@@ -20,7 +20,7 @@ composer require alext/silverstripe-btpayment
 ## Braintree settings
 
 After installing and rebuilding (`\dev\build?flush`) go to site admin - Settings and input Braintree settings, see screenshot below:
-![Setting](/_screenshots/settings.jpg?raw=true "Braintree settings")
+![Setting](/_screenshots/settings.png?raw=true "Braintree settings")
 
 ## SilverStripe member and Braintree customer
 
