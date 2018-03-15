@@ -4,7 +4,7 @@
     "description": "Integrate Braintree payment form in Dropin UI.",
     "keywords": ["silverstripe","braintree", "pay", "payment", "credit", "card", "paypal"],
     "homepage": "http://github.com/conqtc/btpayment",
-    "license": "BSD",
+    "license": "proprietary",
     "authors": [
         {
             "name": "Alex Truong",
