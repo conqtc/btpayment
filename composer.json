@@ -26,6 +26,5 @@
             "client/css",
             "client/js"
         ]
-    },
-    "minimum-stability": "dev"
+    }
 }

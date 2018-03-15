@@ -1,2 +1,2 @@
 # btpayment
-Integrate Braintree payment form in Dropin UI.
+A SilverStripe module to integrate Braintree payment forms in Dropin UI.
