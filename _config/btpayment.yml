@@ -1,0 +1,6 @@
+SilverStripe\SiteConfig\SiteConfig:
+  extensions:
+    - AlexT\BraintreeExtension
+SilverStripe\Security\Member:
+  extensions:
+    - AlexT\BraintreeMemberExtension

@@ -1,0 +1,33 @@
+{
+    "name": "alext/silverstripe-btpayment",
+    "type": "silverstripe-vendormodule",
+    "description": "Integrate Braintree payment form in Dropin UI.",
+    "keywords": ["silverstripe","braintree", "pay", "payment", "credit", "card", "paypal"],
+    "homepage": "http://github.com/conqtc/btpayment",
+    "license": "BSD",
+    "authors": [
+        {
+            "name": "Alex Truong",
+            "homepage": "http://github.com/conqtc",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.6",
+        "silverstripe/framework": "^4"
+    },
+    "autoload": {
+        "psr-4": {
+            "AlexT\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.x-dev"
+        },
+        "expose": [
+            "client/css",
+            "client/js"
+        ]
+    }
+}
