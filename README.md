@@ -6,11 +6,11 @@ Currently there're two forms:
 
 * Make a payment form:
 
-<img src="/_screenshots/make_payment.png" width=400 />
+<img src="../../../_screenshots/blob/master/btpayment/make_payment.png" width=400 />
 
 * Add/remove payment methods in the vault:
 
-<img src="/_screenshots/manage_methods.png" width=400 />
+<img src="../../../_screenshots/blob/master/btpayment/manage_methods.png" width=400 />
 
 Support SilverStripe 4.
 
@@ -25,7 +25,7 @@ composer require alext/silverstripe-btpayment
 
 After installing and rebuilding (`\dev\build?flush`) go to site admin - Settings and input Braintree settings, see screenshot below:
 
-<img src="/_screenshots/settings.png" width=400 />
+<img src="../../../_screenshots/blob/master/btpayment/settings.png" width=400 />
 
 ## SilverStripe member and Braintree customer
 
