@@ -46,8 +46,6 @@ Example:
 ```
 
 The page controller must extend `BraintreePageController`
-
-Example:
 ```
 use AlexT\BTPayment\BraintreePageController;
 
@@ -66,8 +64,6 @@ Example:
 ```
 
 The page controller must extend `BraintreeEditPageController`
-
-Example:
 ```
 use AlexT\BTPayment\BraintreeEditPageController;
 
