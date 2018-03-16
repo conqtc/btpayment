@@ -35,7 +35,7 @@ Braintree customer will be created on the fly at the first time using the forms 
 
 ## Usage
 
-To use the make payment form, use `$BTPaymentForm` in your template.
+* To use the make payment form, use `$BTPaymentForm` in your template of the page.
 
 Example:
 ```
@@ -45,7 +45,17 @@ Example:
 <!-- END MAIN CONTENT -->
 ```
 
-To use the payment methods management form, use `$BTEditPaymentForm` in your template.
+The page controller must extend `BraintreePageController`
+
+Example:
+```
+use AlexT\BTPayment\BraintreePageController;
+
+class SamplePaymentPageController extends BraintreePageController {
+}
+```
+
+* To use the payment methods management form, use `$BTEditPaymentForm` in your template.
 
 Example:
 ```
@@ -53,4 +63,14 @@ Example:
 <!-- BEGIN MAIN CONTENT -->
     $BTEditPaymentForm
 <!-- END MAIN CONTENT -->
+```
+
+The page controller must extend `BraintreeEditPageController`
+
+Example:
+```
+use AlexT\BTPayment\BraintreeEditPageController;
+
+class SamplePaymentManagementPageController extends BraintreeEditPageController {
+}
 ```
