@@ -1,14 +1,22 @@
 <?php
 namespace AlexT\BTPayment;
 
+use Braintree_TransactionSearch;
 use PageController;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\Form;
 use SilverStripe\Forms\FormAction;
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\GridField\GridFieldConfig;
+use SilverStripe\Forms\GridField\GridFieldDataColumns;
+use SilverStripe\Forms\GridField\GridFieldPaginator;
+use SilverStripe\Forms\GridField\GridFieldSortableHeader;
+use SilverStripe\Forms\GridField\GridFieldToolbarHeader;
 use SilverStripe\Forms\HiddenField;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\RequiredFields;
 use SilverStripe\Forms\TextField;
+use SilverStripe\ORM\ArrayList;
 use SilverStripe\View\Requirements;
 
 /**
@@ -23,7 +31,8 @@ class BraintreePageController extends PageController {
      */
     private static $allowed_actions = [
         'BTPaymentForm',
-        'BTEditPaymentForm'
+        'BTEditPaymentForm',
+        'BTPreviousTransactions'
     ];
 
     /**
@@ -183,4 +192,44 @@ class BraintreePageController extends PageController {
 
         return $this->redirectBack();
     }
+
+    /**
+     * @return Form
+     * @throws \SilverStripe\ORM\ValidationException
+     */
+    public function BTPreviousTransactions() {
+        $gateway = BraintreeExtension::BTGateway();
+
+        $collection = $gateway->transaction()->search([
+            Braintree_TransactionSearch::customerId()->is(BraintreeExtension::BTClientId()),
+        ]);
+
+        $transactions = ArrayList::create();
+
+        foreach ($collection as $transaction) {
+            $bttransaction = new BraintreeTransaction($transaction);
+            $transactions->push($bttransaction);
+        }
+
+        // columns to display for transaction
+        $dataColumns = new GridFieldDataColumns();
+        $dataColumns->setDisplayFields(array(
+            'Date' => 'Date',
+            'Amount' => 'Amount',
+            'Currency' => 'Currency',
+            'Type' => 'Type',
+            'Status' => 'Status',
+        ));
+
+        $config = GridFieldConfig::create();
+        $config->addComponent(new GridFieldToolbarHeader())
+            ->addComponent(new GridFieldSortableHeader())
+            ->addComponent(new GridFieldPaginator(10))
+            ->addComponent($dataColumns);
+
+        $grid = new GridField('transactions', 'Previous Transactions', $transactions, $config);
+
+        return new Form($this, __FUNCTION__, new FieldList($grid), new FieldList());
+    }
+
 }
