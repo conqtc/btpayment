@@ -12,6 +12,10 @@ Currently there're two forms:
 
 <img src="../../../_screenshots/blob/master/btpayment/manage_methods.png" width=400 />
 
+* Display previous transactions simple list
+
+<img src="../../../_screenshots/blob/master/btpayment/transactions.png" width=400 />
+
 Support SilverStripe 4.
 
 ## Installation
@@ -70,3 +74,15 @@ use AlexT\BTPayment\BraintreeEditPageController;
 class SamplePaymentManagementPageController extends BraintreeEditPageController {
 }
 ```
+
+* To use the previous transactions form, use `BTPreviousTransactions` in your template.
+
+Example:
+```
+[SamplePaymentManagement.ss]
+<!-- BEGIN MAIN CONTENT -->
+    $BTPreviousTransactions
+<!-- END MAIN CONTENT -->
+```
+
+The page controller must extend `BraintreePageController`.
