@@ -74,8 +74,6 @@ class BraintreeExtension extends DataExtension {
      * @return client token (string)
      */
     public static function BTClientToken($gateway, $member) {
-        //$gateway = BraintreeExtension::BTGateway();
-
         if ($gateway != null && $member != null) {
             // generate a client token from customer id
             return $gateway->ClientToken()->generate(["customerId" => self::BTClientId($gateway, $member)]);
@@ -92,9 +90,6 @@ class BraintreeExtension extends DataExtension {
      */
     public static function BTClientId($gateway, $member)
     {
-        // get current user
-        //$member = Security::getCurrentUser();
-
         if ($member != null) {
             $btClientId = $member->BTClientId;
             // if customer is not created in the vault
@@ -120,8 +115,6 @@ class BraintreeExtension extends DataExtension {
      * @return new customer id
      */
     public static function BTCreateClient($gateway, $member) {
-        //$gateway = BraintreeExtension::BTGateway();
-
         if ($gateway != null && $member != null) {
             $result = $gateway->customer()->create([
                 'firstName' => $member->FirstName,

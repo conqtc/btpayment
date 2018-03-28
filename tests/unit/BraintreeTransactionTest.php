@@ -15,16 +15,11 @@ class BraintreeTransactionTest extends Setup {
     public function testNullTransaction() {
         $transaction = new BraintreeTransaction(null);
 
-        $this->assertEquals(-1, $transaction->getAmount());
-
-        $this->assertEquals('', $transaction->getStatus());
-
-        $this->assertEquals('', $transaction->getType());
-
-        $this->assertEquals('', $transaction->getCurrency());
-
-        $this->assertEquals('', $transaction->getDate());
-
-        $this->assertEquals('', $transaction->getCustomer());
+        $this->assertEquals(-1, $transaction->getAmount(), 'Amount should be -1 when transaction is null');
+        $this->assertEquals('', $transaction->getStatus(), 'Status should be empty when transaction is null');
+        $this->assertEquals('', $transaction->getType(), 'Type should be empty when transaction is null');
+        $this->assertEquals('', $transaction->getCurrency(), 'Currency should be empty when transaction is null');
+        $this->assertEquals('', $transaction->getDate(), 'Date should be empty when transaction is null');
+        $this->assertEquals('', $transaction->getCustomer(), 'Customer should be empty when transaction is null');
     }
 }
