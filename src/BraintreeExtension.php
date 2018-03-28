@@ -73,12 +73,12 @@ class BraintreeExtension extends DataExtension {
      * @param $customerId Customer Id stored in the vault
      * @return client token (string)
      */
-    public static function BTClientToken() {
-        $gateway = BraintreeExtension::BTGateway();
+    public static function BTClientToken($gateway, $member) {
+        //$gateway = BraintreeExtension::BTGateway();
 
-        if ($gateway != null) {
+        if ($gateway != null && $member != null) {
             // generate a client token from customer id
-            return $gateway->ClientToken()->generate(["customerId" => self::BTClientId()]);
+            return $gateway->ClientToken()->generate(["customerId" => self::BTClientId($gateway, $member)]);
         }
 
         return null;
@@ -90,22 +90,26 @@ class BraintreeExtension extends DataExtension {
      * @return A string represents customer id
      * @throws \SilverStripe\ORM\ValidationException
      */
-    public static function BTClientId() {
+    public static function BTClientId($gateway, $member)
+    {
         // get current user
-        //$member = Member::currentUser();
-        $member = Security::getCurrentUser();
+        //$member = Security::getCurrentUser();
 
-        $btClientId = $member->BTClientId;
-        // if customer is not created in the vault
-        if (empty($btClientId) || is_null($btClientId)) {
-            // create a new customer in the vault, return
-            $btClientId = self::BTCreateClient($member);
-            // write back to database
-            $member->BTClientId = $btClientId;
-            $member->write();
+        if ($member != null) {
+            $btClientId = $member->BTClientId;
+            // if customer is not created in the vault
+            if (empty($btClientId) || is_null($btClientId)) {
+                // create a new customer in the vault, return
+                $btClientId = self::BTCreateClient($gateway, $member);
+                // write back to database
+                $member->BTClientId = $btClientId;
+                $member->write();
+            }
+
+            return $btClientId;
+        } else {
+            return -1;
         }
-
-        return $btClientId;
     }
 
     /**
@@ -115,23 +119,27 @@ class BraintreeExtension extends DataExtension {
      * @param $member current SilverStripe member
      * @return new customer id
      */
-    public static function BTCreateClient($member) {
-        $gateway = BraintreeExtension::BTGateway();
+    public static function BTCreateClient($gateway, $member) {
+        //$gateway = BraintreeExtension::BTGateway();
 
-        $result = $gateway->customer()->create([
-            'firstName' => $member->FirstName,
-            'lastName' => $member->SurName,
-            /*
-            'company' => '',
-            'email' => '',
-            'phone' => '',
-            'fax' => '',
-            'website' => ''
-            */
-        ]);
+        if ($gateway != null && $member != null) {
+            $result = $gateway->customer()->create([
+                'firstName' => $member->FirstName,
+                'lastName' => $member->SurName,
+                /*
+                'company' => '',
+                'email' => '',
+                'phone' => '',
+                'fax' => '',
+                'website' => ''
+                */
+            ]);
 
-        if ($result->success) {
-            return $result->customer->id;
+            if ($result->success) {
+                return $result->customer->id;
+            } else {
+                return '';
+            }
         } else {
             return '';
         }

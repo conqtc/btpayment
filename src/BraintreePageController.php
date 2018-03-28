@@ -17,6 +17,7 @@ use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\RequiredFields;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\ArrayList;
+use SilverStripe\Security\Security;
 use SilverStripe\View\Requirements;
 
 /**
@@ -52,6 +53,9 @@ class BraintreePageController extends PageController {
      * @return Braintree payment form using Dropin UI
      */
     public function BTPaymentForm() {
+        $gateway = BraintreeExtension::BTGateway();
+        $member = Security::getCurrentUser();
+
         $form = Form::create(
             $this,
             __FUNCTION__,
@@ -65,7 +69,7 @@ class BraintreePageController extends PageController {
             ),
             // Submit button
             FieldList::create(
-                FormAction::create('makePayment','Make BT Payment')
+                FormAction::create('makePayment','Make Payment')
                     ->setUseButtonTag(true)
                     ->addExtraClass('btn btn-default-color btn-sm js-bt-button-make-payment')
             ),
@@ -74,7 +78,7 @@ class BraintreePageController extends PageController {
         )
         ->addExtraClass('js-bt-payment-form')
         // add client token as data attribute
-        ->setAttribute('data-client-token', BraintreeExtension::BTClientToken());
+        ->setAttribute('data-client-token', BraintreeExtension::BTClientToken($gateway, $member));
 
         // retrieve data from saved session (if has)
         $data = $this->getRequest()->getSession()->get("FormData.{$form->getName()}.data");
@@ -99,6 +103,10 @@ class BraintreePageController extends PageController {
         // and payment method nonce sent from client
         $nonce = $data['bt-payment_method_nonce'];
 
+        return $this->processPayment($session, $form, $nonce, $amount);
+    }
+
+    public function processPayment($session, $form, $nonce, $amount) {
         $gateway = BraintreeExtension::BTGateway();
         // make a transaction
         $result = $gateway->transaction()->sale([
@@ -133,6 +141,9 @@ class BraintreePageController extends PageController {
      * @return Braintree form using Dropin UI but disable 'choose another way to pay'
      */
     public function BTEditPaymentForm() {
+        $gateway = BraintreeExtension::BTGateway();
+        $member = Security::getCurrentUser();
+
         $form = Form::create(
             $this,
             __FUNCTION__,
@@ -155,7 +166,7 @@ class BraintreePageController extends PageController {
         )
         ->addExtraClass('js-bted-payment-form')
         // client token as data attribute
-        ->setAttribute('data-client-token', BraintreeExtension::BTClientToken());
+        ->setAttribute('data-client-token', BraintreeExtension::BTClientToken($gateway, $member));
 
         return $form;
     }
@@ -175,8 +186,9 @@ class BraintreePageController extends PageController {
 
         // create a new payment method, prevent duplicate to get the method token
         $gateway = BraintreeExtension::BTGateway();
+        $member = Security::getCurrentUser();
         $result = $gateway->paymentMethod()->create([
-            'customerId' => BraintreeExtension::BTClientId(),
+            'customerId' => BraintreeExtension::BTClientId($gateway, $member),
             'paymentMethodNonce' => $nonce,
             'options' => [
                 'failOnDuplicatePaymentMethod' => true
@@ -199,9 +211,10 @@ class BraintreePageController extends PageController {
      */
     public function BTPreviousTransactions() {
         $gateway = BraintreeExtension::BTGateway();
+        $member = Security::getCurrentUser();
 
         $collection = $gateway->transaction()->search([
-            Braintree_TransactionSearch::customerId()->is(BraintreeExtension::BTClientId()),
+            Braintree_TransactionSearch::customerId()->is(BraintreeExtension::BTClientId($gateway, $member)),
         ]);
 
         $transactions = ArrayList::create();
