@@ -209,7 +209,7 @@ class BraintreePageController extends PageController {
      * @return Form
      * @throws \SilverStripe\ORM\ValidationException
      */
-    public function BTPreviousTransactions() {
+    public function BTPreviousTransactionsForm() {
         $gateway = BraintreeExtension::BTGateway();
         $member = Security::getCurrentUser();
 
