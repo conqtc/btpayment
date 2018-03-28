@@ -6,6 +6,10 @@ use Braintree\Configuration;
 use Braintree\Gateway;
 use SilverStripe\Dev\SapphireTest;
 
+/**
+ * Class Setup
+ * @package Test
+ */
 class Setup extends SapphireTest {
 
     public static $valid_nonce_characters = 'bcdfghjkmnpqrstvwxyz23456789';
@@ -17,11 +21,17 @@ class Setup extends SapphireTest {
 
     public $gateway = null;
 
+    /**
+     * Setup constructor.
+     */
     public function __construct() {
         parent::__construct();
         self::setupBraintreeSettings();
     }
 
+    /**
+     * Setup Braintree environment settings
+     */
     public static function setupBraintreeSettings() {
         Configuration::reset();
 
@@ -31,6 +41,9 @@ class Setup extends SapphireTest {
         Configuration::privateKey('4ca8d78be3d35adf8c943198d1fa960f');
     }
 
+    /**
+     * Initialize a new gateway if not yet created
+     */
     public function setUp() {
         if ($this->gateway == null) {
             $this->gateway = new Gateway([
@@ -44,6 +57,9 @@ class Setup extends SapphireTest {
         return parent::setUp();
     }
 
+    /**
+     * 
+     */
     public function tearDown() {
         parent::tearDown();
     }

@@ -11,11 +11,15 @@ use SilverStripe\Security\Member;
 use SilverStripe\Security\Security;
 use Test\Setup;
 
+/**
+ * Class BraintreeExtensionTest
+ * @package Test\Unit
+ */
 class BraintreeExtensionTest extends Setup {
     private $member;
 
     /**
-     *
+     * Onetime setup for this test class
      */
     public static function setupBeforeClass() {
         parent::setUpBeforeClass();
@@ -23,7 +27,7 @@ class BraintreeExtensionTest extends Setup {
     }
 
     /**
-     *
+     * Onetime tear down for this test class
      */
     public static function tearDownAfterClass() {
         parent::tearDownAfterClass();
@@ -31,7 +35,7 @@ class BraintreeExtensionTest extends Setup {
     }
 
     /**
-     *
+     * Initialize new SS member
      */
     public function setUp() {
         parent::setUp();
@@ -42,9 +46,10 @@ class BraintreeExtensionTest extends Setup {
     }
 
     /**
-     *
+     * Test if gateway config is correct
      */
     public function testGatewayConfig() {
+        $this->assertNotNull($this->gateway, 'Gateway should not be null');
         $this->assertEquals(self::$bt_environment, $this->gateway->config->getEnvironment(), 'Environment should be: ' . self::$bt_environment);
         $this->assertEquals(self::$bt_merchantId, $this->gateway->config->getMerchantId(), 'Merchant ID should be: ' . self::$bt_merchantId);
         $this->assertEquals(self::$bt_publicKey, $this->gateway->config->getPublicKey(), 'Public key should be: ' . self::$bt_publicKey);
@@ -52,7 +57,7 @@ class BraintreeExtensionTest extends Setup {
     }
 
     /**
-     *
+     * Test if creating client for the same member twice should result in different clients (ids)
      */
     public function testCreateClient() {
         $cid = BraintreeExtension::BTCreateClient($this->gateway, $this->member);
@@ -62,6 +67,7 @@ class BraintreeExtensionTest extends Setup {
     }
 
     /**
+     * Test if client id is stored in member and retrieved
      * @throws \SilverStripe\ORM\ValidationException
      */
     public function testClientId() {
@@ -75,7 +81,7 @@ class BraintreeExtensionTest extends Setup {
     }
 
     /**
-     *
+     * Test client token is created and not null nor empty
      */
     public function testClientToken() {
         $token = BraintreeExtension::BTClientToken($this->gateway, $this->member);
@@ -84,7 +90,7 @@ class BraintreeExtensionTest extends Setup {
     }
 
     /**
-     *
+     * Tear down for each test
      */
     public function tearDown() {
         parent::tearDown();

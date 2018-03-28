@@ -8,6 +8,10 @@ use AlexT\BTPayment\BraintreeTransaction;
 use SilverStripe\Dev\SapphireTest;
 use Test\Setup;
 
+/**
+ * Class BraintreeTransactionTest
+ * @package Test\Unit
+ */
 class BraintreeTransactionTest extends Setup {
     /**
      * Test passing in null to create new BraintreeTransaction
