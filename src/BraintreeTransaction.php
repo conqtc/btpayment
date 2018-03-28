@@ -29,42 +29,66 @@ class BraintreeTransaction extends DataObject {
      * @return mixed
      */
     public function getAmount() {
-        return $this->transaction->amount;
+        if ($this->transaction != null) {
+            return $this->transaction->amount;
+        } else {
+            return -1;
+        }
     }
 
     /**
      * @return mixed
      */
     public function getStatus() {
-        return $this->transaction->status;
+        if ($this->transaction != null) {
+            return $this->transaction->status;
+        } else {
+            return '';
+        }
     }
 
     /**
      * @return mixed
      */
     public function getType() {
-        return $this->transaction->type;
+        if ($this->transaction != null) {
+            return $this->transaction->type;
+        } else {
+            return '';
+        }
     }
 
     /**
      * @return mixed
      */
     public function getCurrency() {
-        return $this->transaction->currencyIsoCode;
+        if ($this->transaction != null) {
+            return $this->transaction->currencyIsoCode;
+        } else {
+            return '';
+        }
     }
 
     /**
      * @return mixed
      */
     public function getDate() {
-        return $this->transaction->createdAt->format('h:i A d/m/Y');
+        if ($this->transaction != null) {
+            return $this->transaction->createdAt->format('h:i A d/m/Y');
+        } else {
+            return '';
+        }
     }
 
     /**
      * @return mixed
      */
     public function getCustomer() {
-        return $this->transaction->customer;
+        if ($this->transaction != null) {
+            return $this->transaction->customer;
+        } else {
+            return '';
+        }
     }
 
 }

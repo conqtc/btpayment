@@ -7,6 +7,7 @@ use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\DataExtension;
 use SilverStripe\Security\Member;
+use SilverStripe\Security\Security;
 use SilverStripe\SiteConfig\SiteConfig;
 
 /**
@@ -91,7 +92,8 @@ class BraintreeExtension extends DataExtension {
      */
     public static function BTClientId() {
         // get current user
-        $member = Member::currentUser();
+        //$member = Member::currentUser();
+        $member = Security::getCurrentUser();
 
         $btClientId = $member->BTClientId;
         // if customer is not created in the vault
