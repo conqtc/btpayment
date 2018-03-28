@@ -75,13 +75,13 @@ class SamplePaymentManagementPageController extends BraintreeEditPageController 
 }
 ```
 
-* To use the previous transactions form, use `BTPreviousTransactions` in your template.
+* To use the previous transactions form, use `BTPreviousTransactionsForm` in your template.
 
 Example:
 ```
 [SamplePaymentManagement.ss]
 <!-- BEGIN MAIN CONTENT -->
-    $BTPreviousTransactions
+    $BTPreviousTransactionsForm
 <!-- END MAIN CONTENT -->
 ```
 
