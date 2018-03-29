@@ -4,8 +4,13 @@ namespace Test\Unit;
 
 require_once dirname(__DIR__) . '/Setup.php';
 
+use SilverStripe\Security\Member;
 use Test\Setup;
 
+/**
+ * Class BraintreePageControllerTest
+ * @package Test\Unit
+ */
 class BraintreePageControllerTest extends Setup {
     private $member;
 
@@ -35,7 +40,10 @@ class BraintreePageControllerTest extends Setup {
         $this->member->FirstName = 'Alex';
         $this->member->Surname = 'Truong';
     }
-    
+
+    public function testStub() {
+        $this->assertEquals(0, 0, '');
+    }
 
     /**
      * Tear down for each test
