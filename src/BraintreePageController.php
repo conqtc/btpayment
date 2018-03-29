@@ -52,7 +52,7 @@ class BraintreePageController extends PageController {
      *
      * @return Braintree payment form using Dropin UI
      */
-    public function BTPaymentForm() {
+    public function BTPaymentForm($defaultValue = 0) {
         $gateway = BraintreeExtension::BTGateway();
         $member = Security::getCurrentUser();
 
@@ -61,9 +61,11 @@ class BraintreePageController extends PageController {
             __FUNCTION__,
             // amount input, <div> block to inject BT dropin UI, hidden field to store payment method nonce
             FieldList::create(
-                TextField::create('bt-amount','Amount')
-                ->addExtraClass('js-bt-amount'),
-                LiteralField::create('', '<div id="bt-dropin" class="js-bt-dropin"></div>'),
+                TextField::create('bt-amount','TOTAL AMOUNT ($)')
+                ->addExtraClass('js-bt-amount')
+                ->setReadonly(true)
+                ->setValue($defaultValue),
+                LiteralField::create('', '<p><div id="bt-dropin" class="js-bt-dropin"></div>'),
                 HiddenField::create('bt-payment_method_nonce', '')
                 ->addExtraClass('js-bt-nonce')
             ),
