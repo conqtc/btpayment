@@ -106,3 +106,35 @@ Example:
 ```
 
 The page controller must extend `BraintreePageController`.
+
+To manually handle the transaction yourself, override `function processPayment($session, $form, $nonce, $amount)` to do your own transaction, for example:
+```
+public function processPayment($session, $form, $nonce, $amount) {
+    $gateway = BraintreeExtension::BTGateway();
+    // make a transaction
+    $result = $gateway->transaction()->sale([
+        'amount' => $amount,
+        'paymentMethodNonce' => $nonce,
+        'options' => [
+            'submitForSettlement' => true
+        ]
+    ]);
+
+    if ($result->success || !is_null($result->transaction)) {
+        // clear session if everything is fine
+        $session->clear("FormData.{$form->getName()}.data");
+        $form->sessionMessage('A payment of ' . $amount . '$ has been made!', 'Success');
+    } else {
+        // ERROR
+        $errorString = "";
+
+        foreach ($result->errors->deepAll() as $error) {
+            $errorString .= 'Error: ' . $error->code . ": " . $error->message . "\n";
+        }
+
+        $form->sessionError('Unable to make a payment! ' . $errorString, 'Failure');
+    }
+
+    return $this->redirectBack();
+}
+```

@@ -108,6 +108,13 @@ class BraintreePageController extends PageController {
         return $this->processPayment($session, $form, $nonce, $amount);
     }
 
+    /**
+     * @param $session
+     * @param $form
+     * @param $nonce
+     * @param $amount
+     * @return \SilverStripe\Control\HTTPResponse
+     */
     public function processPayment($session, $form, $nonce, $amount) {
         $gateway = BraintreeExtension::BTGateway();
         // make a transaction
