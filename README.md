@@ -57,14 +57,34 @@ class SamplePaymentPageController extends BraintreePageController {
 }
 ```
 
-* To use the payment methods management form, use `$BTEditPaymentForm` in your template.
+* To use the payment methods management form, use `$BTEditPaymentForm($amount)` in your template, if $amount is not specified 0 (zero) will be put in place.
 
-Example:
+Example (in case we process the payment in the separate page, set the total amount on the fly):
 ```
 [SamplePaymentManagement.ss]
 <!-- BEGIN MAIN CONTENT -->
     $BTEditPaymentForm
 <!-- END MAIN CONTENT -->
+```
+
+Example if we want to change the total amount on the fly:
+```
+[PaymentPage.ss]
+<h3>Select a property to purchase:</h3>
+<p><p>
+<select id="js-select-property">
+    <option value="0">----- Select property -----</option>
+    <% loop $FeaturedProperties %>
+        <option value="{$PricePerNight}">{$Title}</option>
+    <% end_loop %>
+</select>
+<hr>
+$BTPaymentForm
+-----
+[scripts.js]
+$('#js-select-property').on('change', function (e) {
+    $('.js-bt-amount').val($('#js-select-property').val());
+});
 ```
 
 The page controller must extend `BraintreeEditPageController`
