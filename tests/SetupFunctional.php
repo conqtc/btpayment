@@ -8,7 +8,9 @@ use SilverStripe\Dev\FunctionalTest;
 
 class SetupFunctional extends FunctionalTest {
 
-    public static $valid_nonce_characters = 'bcdfghjkmnpqrstvwxyz23456789';
+    public static $invalid_nonce_characters = 'bcdfghjkmnpqrstvwxyz23456789';
+
+    public static $fake_valid_nonce = 'fake-valid-nonce';
 
     public static $bt_environment = 'sandbox';
     public static $bt_merchantId = 't9nsccxkt5w699t6';
