@@ -35,7 +35,7 @@ class BTPaymentFormTest extends SetupFunctional {
     /**
      *
      */
-    public function testStub() {
+    public function testGateway() {
         $this->assertNotNull($this->gateway, 'Gateway should not be null');
     }
 
