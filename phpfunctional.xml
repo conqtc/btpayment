@@ -10,8 +10,8 @@
          colors="true">
 
     <testsuites>
-        <testsuite name="unit">
-            <directory>./tests/unit</directory>
+        <testsuite name="functional">
+            <directory>./tests/functional</directory>
         </testsuite>
     </testsuites>
 </phpunit>
