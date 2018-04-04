@@ -3,6 +3,7 @@ namespace AlexT\BTPayment;
 
 use Braintree_TransactionSearch;
 use PageController;
+use SilverStripe\Control\Controller;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\Form;
 use SilverStripe\Forms\FormAction;
@@ -80,12 +81,14 @@ class BraintreePageController extends PageController {
         )
         ->addExtraClass('js-bt-payment-form')
         // add client token as data attribute
-        ->setAttribute('data-client-token', BraintreeExtension::BTClientToken($gateway, $member));
+        ->setAttribute('data-client-token', BraintreeExtension::BTClientToken($gateway, $member))
+        ->disableSecurityToken();
 
         // retrieve data from saved session (if has)
-        $data = $this->getRequest()->getSession()->get("FormData.{$form->getName()}.data");
+        //$data = $this->getRequest()->getSession()->get("FormData.{$form->getName()}.data");
+        //return $data ? $form->loadDataFrom($data) : $form;
 
-        return $data ? $form->loadDataFrom($data) : $form;
+        return $form;
     }
 
     /**
@@ -105,7 +108,11 @@ class BraintreePageController extends PageController {
         // and payment method nonce sent from client
         $nonce = $data['bt-payment_method_nonce'];
 
-        return $this->processPayment($session, $form, $nonce, $amount);
+        $result = $this->processPayment($session, $form, $nonce, $amount);
+
+        $this->redirectBack();
+
+        return $result;
     }
 
     /**
@@ -141,7 +148,7 @@ class BraintreePageController extends PageController {
             $form->sessionError('Unable to make a payment! ' . $errorString, 'Failure');
         }
 
-        return $this->redirectBack();
+        return $result;
     }
 
     /**
