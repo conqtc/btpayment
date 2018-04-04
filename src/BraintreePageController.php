@@ -218,7 +218,9 @@ class BraintreePageController extends PageController {
             }
         }
 
-        return $this->redirectBack();
+        $this->redirectBack();
+
+        return $result;
     }
 
     /**
