@@ -2,7 +2,7 @@ silverstripe-btpayment
 ======================
 A SilverStripe module to integrate Braintree payment forms in Dropin UI.
 
-Currently there're two forms:
+Currently there're following forms:
 
 * Make a payment form:
 
@@ -11,6 +11,14 @@ Currently there're two forms:
 * Add/remove payment methods in the vault:
 
 <img src="../../../_screenshots/blob/master/btpayment/manage_methods.png" width=400 />
+
+When there's no payment method in the vault, the form allows user to add a new payment method:
+
+<img src="../../../_screenshots/blob/master/btpayment/add_payment.png" width=400 />
+
+Both forms (v0.6) allow user to authorize paypal:
+
+<img src="../../../_screenshots/blob/master/btpayment/authorize_paypal.png" width=400 />
 
 * Display previous transactions simple list
 
