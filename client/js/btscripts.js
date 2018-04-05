@@ -118,9 +118,8 @@ $(function () {
             });
         },
 
-        // change button label and set number of payment methods to hidden field
+        // change button label
         updateButton: function(instance, form) {
-            form.find('.js-bted-methods-length').val(instance._model._paymentMethods.length);
             if (instance._model._paymentMethods.length == 0) {
                 form.find('.js-bt-button-edit-payment').html('Add Payment');
             } else {

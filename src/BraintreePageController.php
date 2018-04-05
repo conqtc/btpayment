@@ -167,9 +167,7 @@ class BraintreePageController extends PageController {
             FieldList::create(
                 LiteralField::create('', '<div id="bted-dropin" class="js-bted-dropin"></div>'),
                 HiddenField::create('bted-payment_method_nonce', '')
-                    ->addExtraClass('js-bted-nonce'),
-                HiddenField::create('bted-payment_methods-length', '')
-                    ->addExtraClass('js-bted-methods-length')
+                    ->addExtraClass('js-bted-nonce')
             ),
             // Buttont to remove existing payment method or add a new card info as a new payment method
             FieldList::create(
@@ -198,11 +196,20 @@ class BraintreePageController extends PageController {
     public function editPayment($data, $form) {
         // received nonce and how many payment methods in the vault
         $nonce = $data['bted-payment_method_nonce'];
-        $length = $data['bted-payment_methods-length'];
 
         // create a new payment method, prevent duplicate to get the method token
         $gateway = BraintreeExtension::BTGateway();
         $member = Security::getCurrentUser();
+
+        /*
+        // get list of payment method tokens
+        $customer = $gateway->customer()->find(BraintreeExtension::BTClientId($gateway, $member));
+        foreach ($customer->paymentMethods as $method) {
+            // $method->token
+        }
+        */
+
+        // re-create payment method, which won't duplicate with the existing one, just to get the payment method token
         $result = $gateway->paymentMethod()->create([
             'customerId' => BraintreeExtension::BTClientId($gateway, $member),
             'paymentMethodNonce' => $nonce,
@@ -211,11 +218,9 @@ class BraintreePageController extends PageController {
             ]
         ]);
 
-        // remove this payment method if this is a removal command
-        if ($result->success || !is_null($result->transaction)) {
-            if ($length != 0) {
-                $gateway->paymentMethod()->delete($result->paymentMethod->token);
-            }
+        // remove this payment method based on the token
+        if ($result->success || !is_null($result->paymentMethod)) {
+            $gateway->paymentMethod()->delete($result->paymentMethod->token);
         }
 
         return $this->redirectBack();
