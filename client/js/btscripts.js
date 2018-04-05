@@ -10,7 +10,19 @@ $(function () {
 
                 braintree.dropin.create({
                     authorization: clientToken,
-                    selector: '#bt-dropin'
+                    selector: '#bt-dropin',
+                    card: {
+                        cardholderName: true
+                    },
+                    paypal: {
+                        flow: 'vault',
+                        buttonStyle: {
+                            color: 'blue',
+                            shape: 'pill',
+                            size: 'medium',
+                            label: 'paypal'
+                        }
+                    }
                 }, function (createErr, instance) {
                     if (createErr) {
                         console.log('Create Error', createErr);
@@ -52,22 +64,40 @@ $(function () {
 
                 braintree.dropin.create({
                     authorization: clientToken,
-                    selector: '#bted-dropin'
+                    selector: '#bted-dropin',
+                    card: {
+                        cardholderName: true
+                    },
+                    paypal: {
+                        flow: 'vault',
+                        buttonStyle: {
+                            color: 'blue',
+                            shape: 'pill',
+                            size: 'medium'
+                        }
+                    }
                 }, function (createErr, instance) {
                     if (createErr) {
                         console.log('Create Error', createErr);
                         return;
                     }
 
-                    form.find('.js-bted-methods-length').val(instance._model._paymentMethods.length);
-                    if (instance._model._paymentMethods.length == 0) {
-                        form.find('.js-bt-button-edit-payment').html('Add Payment');
-                    } else {
-                        form.find('.js-bt-button-edit-payment').html('Remove Payment');
-                    }
+                    // update button as 'add' or 'remove'
+                    EDPaymentForms.updateButton(instance,  form);
+
+                    // update the button when new or none payment is requestable as well
+                    instance.on('paymentMethodRequestable', function (event) {
+                        EDPaymentForms.updateButton(instance,  form);
+                    });
+                    instance.on('noPaymentMethodRequestable', function (event) {
+                        EDPaymentForms.updateButton(instance,  form);
+                    });
 
                     form.find('.js-bt-button-edit-payment').on('click', function (e) {
                         e.preventDefault();
+
+                        // save number of methods
+                        var numberOfMethods = instance._model._paymentMethods.length;
 
                         instance.requestPaymentMethod(function (err, payload) {
                             if (err) {
@@ -75,14 +105,27 @@ $(function () {
                                 return;
                             }
 
-                            // Add the nonce to the form and submit
-                            form.find('.js-bted-nonce').val(payload.nonce);
-                            form.submit();
+                            // submit to remove payment method on server side if this is a 'removal'
+                            if (numberOfMethods > 0) {
+                                // Add the nonce to the form and submit
+                                form.find('.js-bted-nonce').val(payload.nonce);
+                                form.submit();
+                            }
                         });
                     });
                 });
 
             });
+        },
+
+        // change button label and set number of payment methods to hidden field
+        updateButton: function(instance, form) {
+            form.find('.js-bted-methods-length').val(instance._model._paymentMethods.length);
+            if (instance._model._paymentMethods.length == 0) {
+                form.find('.js-bt-button-edit-payment').html('Add Payment');
+            } else {
+                form.find('.js-bt-button-edit-payment').html('Remove Payment');
+            }
         },
 
         showError: function(msg) {
