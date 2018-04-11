@@ -38,7 +38,7 @@ class BraintreeExtension extends DataExtension {
      */
     public function updateCMSFields(FieldList $fields) {
         $fields->addFieldsToTab('Root.BraintreePayment', array(
-            DropdownField::create('BTEnvironment')->setSource(['sandbox', 'production']),
+            DropdownField::create('BTEnvironment', 'Environment', array('sandbox' => 'sandbox', 'production' => 'production')),
             TextField::create('BTMerchantId', 'Merchant ID'),
             TextField::create('BTPublicKey', 'Public Key'),
             TextField::create('BTPrivateKey', 'Private Key')
